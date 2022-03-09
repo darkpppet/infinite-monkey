@@ -10,6 +10,9 @@
 * 이름을 입력한 뒤
 * 버튼을 누르면 됩니다!
 
+### 주의
+이름이 길면 사이트가 뻗을 수도 있습니다.
+
 ---
 
 # Infinite Monkey Theorm
@@ -23,3 +26,6 @@
 * Choose a Writing-System,
 * Enter your or someone's name,
 * And click the button!
+
+### Caution
+If the name is long, the site will stop.
