@@ -1,4 +1,5 @@
-# 무한 원숭이 정리: Infinite Monkey Theorm
+# 무한 원숭이 정리
+
 ## 링크: https://darkpppet.github.io/infinite-monkey/
 
 ### 무한 원숭이 정리란?
@@ -8,3 +9,17 @@
 * 언어를 선택하고
 * 이름을 입력한 뒤
 * 버튼을 누르면 됩니다!
+
+---
+
+# Infinite Monkey Theorm
+
+# link: https://darkpppet.github.io/infinite-monkey/
+
+### What is Infinite Monkey Theorm?
+* https://en.wikipedia.org/wiki/Infinite_monkey_theorem
+
+### How to use
+* Choose a Writing-System,
+* Enter your or someone's name,
+* And click the button!
