@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <title>무한 원숭이 정리</title>
+        <link rel="shortcut icon" href="monkey-icon.ico" type="image/x-icon">
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div id="container">
+            <span id="head">
+                <h1>🐒Infinite Monkey Theorm🐒</h1>
+                <h2>🙈원숭이가 네 이름을 말해줄거야🙈</h2>
+            </span>
+            <hr>
+            <span>
+                <h3>이름: <input type="text" id="name" oninput="filterName(this)" onfocusout="changeName(this)"></h3>
+                <span id="letter-warn"></span>
+                <br><br>
+            </span>
+            <div>
+                <input type="radio" name="writing-system" value="hangul" onclick="changeWritingSystem(this)" checked>한글
+                <input type="radio" name="writing-system" value="alphanumeric" onclick="changeWritingSystem(this)">영숫자
+                <input type="radio" name="writing-system" value="kana" onclick="changeWritingSystem(this)">가나
+            </div>
+            <hr>
+            <span>
+                <h3 id="total-letter-count">글자 개수: 11,172자</h3>
+                <h3 id="expected-letter-count">기댓값: 11,172글자</h3>
+            </span>
+            <hr>
+            <span>
+                <h3>🙉원숭이의 말🙉</h3>
+                <p id="monkey-said"></p>
+            </span>
+            <span>
+                <h3>말한 글자 수</h3>
+                <p id="said-letter-count"></p>
+            </span>
+            <hr>
+            <button id="start-button" onclick="saying(this)">시작</button>
+            <br>
+            <p id="warn">※이름이 너무 길어 원숭이가 말하다 뻗을 수도 있습니다!※</p>
+        </div>
+
+        <script src="js/language.js"></script>
+        <script src="js/script.js"></script>
+    </body>
+</html>
