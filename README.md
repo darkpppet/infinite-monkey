@@ -28,4 +28,4 @@
 * And click the button!
 
 ### Caution
-If the name is long, the site will stop.
+If the entered name is long, the site may stop.
