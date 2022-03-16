@@ -46,7 +46,7 @@ function changeName(e: HTMLInputElement): void {
     nameInput.style.outlineColor = 'black';
     letterWarn.style.visibility = "hidden";
     //한글일 때, 자음이나 모음만 있을 경우 제거 및 갱신
-    if (writingSystem.letterName === "hangul") {
+    if (writingSystem.filterRegex2) {
         e.value = e.value.replace(<RegExp>writingSystem.filterRegex2, '');
         warnNameLength(e.value.length);
         expectedLetterCount.innerText = returnExpectedValueString(writingSystem.letterCount, e.value.length);
@@ -82,9 +82,11 @@ function saying(e: HTMLButtonElement): void {
 
     const webWorker = new Worker("js/saying.js");
     webWorker.onmessage = (message) => {
-        monkeySaid.innerHTML = message.data.said;
-        letterCount.innerText = message.data.count.toLocaleString();
-
+        requestAnimationFrame(() => {
+            monkeySaid.innerHTML = message.data.said;
+            letterCount.innerText = message.data.count.toLocaleString();
+        });
+        
         if (message.data.isFinish) {
             webWorker.terminate();
             warnNameLength(nameInput.value.length);
