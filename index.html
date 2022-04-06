@@ -8,41 +8,50 @@
     </head>
     <body>
         <div id="container">
+            <!-- 제목 부분 -->
             <span id="head">
                 <h1>🐒Infinite Monkey Theorm🐒</h1>
                 <h2>🙈원숭이가 네 이름을 말해줄거야🙈</h2>
             </span>
             <hr>
+            <!-- 이름 입력 부분 -->
             <span>
                 <h3>이름: <input type="text" id="name" oninput="filterName(this)" onfocusout="changeName(this)"></h3>
+                <!-- 입력 경고 부분 -->
                 <span id="letter-warn"></span>
                 <br><br>
             </span>
+            <!-- 문자 선택 부분 -->
             <div>
                 <input type="radio" name="writing-system" value="hangul" onclick="changeWritingSystem(this)" checked>한글
                 <input type="radio" name="writing-system" value="alphanumeric" onclick="changeWritingSystem(this)">영숫자
                 <input type="radio" name="writing-system" value="kana" onclick="changeWritingSystem(this)">가나
             </div>
             <hr>
+            <!-- 문자 정보 표시 부분 -->
             <span>
                 <h3 id="total-letter-count">글자 개수: 11,172자</h3>
                 <h3 id="expected-letter-count">기댓값: 11,172글자</h3>
             </span>
             <hr>
+            <!-- 원숭이의 말 표시 부분 -->
             <span>
                 <h3>🙉원숭이의 말🙉</h3>
                 <p id="monkey-said"></p>
             </span>
+            <!-- 원숭이가 말한 글자 수 표시 부분 -->
             <span>
                 <h3>말한 글자 수</h3>
                 <p id="said-letter-count"></p>
             </span>
             <hr>
+            <!-- 시작 버튼 -->
             <button id="start-button" onclick="saying(this)">시작</button>
             <br>
+            <!-- 길이 경고 부분 -->
             <p id="warn">※이름이 너무 길어 원숭이가 말하다 뻗을 수도 있습니다!※</p>
         </div>
 
-        <script src="js/script.js"></script>
+        <script src="dist/script.js"></script>
     </body>
 </html>

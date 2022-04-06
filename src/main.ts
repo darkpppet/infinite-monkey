@@ -1,3 +1,9 @@
+/* 
+ * main.ts
+ * html에서 바인딩 하는 함수들 정의해놓은 파일
+ */
+
+import WritingSystem, { hangul, alphanumeric, kana } from "./language";
 
 //Elements
 const nameInput = <HTMLInputElement>document.getElementById("name");
@@ -13,18 +19,18 @@ let writingSystem: WritingSystem = hangul;
 nameInput.value = writingSystem.defaultName;
 
 //기댓값 문자열로 반환 함수; '기댓값: xx글자'
-function returnExpectedValueString(letterCount: number, nameLength: number): string {
-    return `기댓값: ${Math.pow(letterCount, nameLength).toLocaleString()}글자`;
-}
+const returnExpectedValueString = (letterCount: number, nameLength: number): string => (
+    `기댓값: ${Math.pow(letterCount, nameLength).toLocaleString()}글자`
+);
 
 //입력 길이에 따른 경고 출력 함수
-function warnNameLength(nameLength: number): void {
+const warnNameLength = (nameLength: number): void => {
     startButton.innerText = nameLength >= writingSystem.warnLength ? "⚠️시작" : "시작";
     warnOutput.style.display = nameLength >= writingSystem.warnLength ? "block" : "none";
-}
+};
 
 //input's oninput
-function filterName(e: HTMLInputElement): void {
+window.filterName = (e: HTMLInputElement): void => {
      //선택된 언어 외 글자 입력시 경고
     if (writingSystem.filterRegex.test(e.value)) {
         nameInput.style.outlineColor = 'red';
@@ -41,20 +47,20 @@ function filterName(e: HTMLInputElement): void {
 }
 
 //input's onfocusout
-function changeName(e: HTMLInputElement): void {
+window.changeName = (e: HTMLInputElement): void => {
     //filterName에서 경고한거 원상복구
     nameInput.style.outlineColor = 'black';
     letterWarn.style.visibility = "hidden";
     //한글일 때, 자음이나 모음만 있을 경우 제거 및 갱신
     if (writingSystem.filterRegex2) {
         e.value = e.value.replace(<RegExp>writingSystem.filterRegex2, '');
-        warnNameLength(e.value.length);
         expectedLetterCount.innerText = returnExpectedValueString(writingSystem.letterCount, e.value.length);
+        warnNameLength(e.value.length);
     }
 }
 
 //radio's onchange
-function changeWritingSystem(e: HTMLInputElement): void {
+window.changeWritingSystem = (e: HTMLInputElement): void => {
     switch (e.value) {
         case "hangul": //한글
             writingSystem = hangul;
@@ -77,20 +83,32 @@ function changeWritingSystem(e: HTMLInputElement): void {
 }
 
 //button's onclick
-function saying(e: HTMLButtonElement): void {
+window.saying = (e: HTMLButtonElement): void => {
     monkeySaid.style.height = "15px";
 
-    const webWorker = new Worker("js/saying.js");
+    let onMonkeySaid: string = "";
+    let onLetterCount: string = "0";
+    let isFinish: boolean = false;
+
+    const render = (): void => {
+        monkeySaid.innerHTML = onMonkeySaid;
+        letterCount.innerText = onLetterCount;
+
+        if (!isFinish) {
+            requestAnimationFrame(render);
+        }
+    }
+
+    const webWorker = new Worker(new URL('./worker.ts', import.meta.url));
     webWorker.onmessage = (message) => {
-        requestAnimationFrame(() => {
-            monkeySaid.innerHTML = message.data.said;
-            letterCount.innerText = message.data.count.toLocaleString();
-        });
-        
+        onMonkeySaid = message.data.said;
+        onLetterCount = message.data.count.toLocaleString();
+
         if (message.data.isFinish) {
+            isFinish = true;
             webWorker.terminate();
             warnNameLength(nameInput.value.length);
-            startButton.onclick = () => saying(startButton);
+            startButton.onclick = () => window.saying(startButton);
         };
     };
 
@@ -98,8 +116,10 @@ function saying(e: HTMLButtonElement): void {
     e.onclick = () => {
         webWorker.terminate();
         warnNameLength(nameInput.value.length);
-        startButton.onclick = () => saying(startButton);
+        startButton.onclick = () => window.saying(startButton);
     };
+
+    render();
 
     webWorker.postMessage({
         writingSystem: writingSystem.letterName,
