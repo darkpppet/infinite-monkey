@@ -16,6 +16,7 @@ const letterCount = document.getElementById("said-letter-count") as HTMLElement;
 const saidTime = document.getElementById("said-time") as HTMLElement;
 const startButton = document.getElementById("start-button") as HTMLButtonElement;
 const letterWarn = document.getElementById("letter-warn") as HTMLElement;
+const writingSystemRadios = document.querySelectorAll('#writing-system-radios .radio') as NodeListOf<HTMLInputElement>;
 
 let writingSystem: WritingSystem = hangul;
 nameInput.value = writingSystem.defaultName;
@@ -97,18 +98,24 @@ window.saying = (e: HTMLButtonElement): void => {
         saidTime.innerText = ((performance.now() - startTime) / 1000).toLocaleString('ko-KR', { minimumFractionDigits: 3 }) + '초';
 
         if (message.data.isFinish) {
-            webWorker.terminate();
-            warnNameLength(nameInput.value.length);
-            startButton.onclick = () => window.saying(startButton);
+            rollback();
         }
     };
 
+    nameInput.disabled = true;
+    writingSystemRadios.forEach(radio => { radio.disabled = true; });
     e.innerText = "중지";
     e.onclick = () => {
+        rollback();
+    };
+
+    const rollback = () => {
         webWorker.terminate();
         warnNameLength(nameInput.value.length);
         startButton.onclick = () => window.saying(startButton);
-    };
+        nameInput.disabled = false;
+        writingSystemRadios.forEach(radio => { radio.disabled = false; });
+    }
 
     let startTime = performance.now();
     webWorker.postMessage({
@@ -116,3 +123,4 @@ window.saying = (e: HTMLButtonElement): void => {
         matchName: nameInput.value
     });
 }
+

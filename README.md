@@ -21,6 +21,9 @@
 
 ### history
 
+#### ver 1.1
+- 생성 중에는 이름 및 문자 변경이 불가능하도록 변경
+
 #### ver 1.0
 - webpack → vite로 변경
   - pnpm 사용
