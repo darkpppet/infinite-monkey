@@ -26,9 +26,10 @@
   - pnpm 사용
   - typescript 버전 업
 - tailwindcss, daisyui 적용
-- 속도, 메모리 성능 매우 개선
+- 속도, 메모리 성능 매우 개선 및 그에 따른 경고 길이/내용 수정
   - worker → main post를 이제 1/60초에 한 번씩 수행합니다.
   - worker 내부 문자열 저장 자료구조를 효율적으로 변경하였습니다. (string → Uint32Array)
+- 키릴 문자 추가
 
 #### ver 0.1
 - 출시
